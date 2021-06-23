@@ -2,8 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 
+<canvas id="board" width="706" height="706" style="touch-action: none; position: relative; width: 706px; height: 706px; display: block; margin: 2px 2px 2px 2px; cursor: inherit;"></canvas>
+
 @*<div id='board'></div>
-<br>*@
+        
+    <br>*@
 <script>
     $(document).ready(function () {
         var app;
@@ -13,23 +16,54 @@
         let binmargin = 1;
         let xitems = 200;
         let yitems = 50;
+        debugger
+        //app = new PIXI.Application()
+        //app = new PIXI.Application({ view: document.getElementById("board") })
 
-        app = new PIXI.Application()
+        const BOARD_WIDTH = 706;
+        const BOARD_HEIGHT = 706;
+        const PADDING = 0;
+
+        var ratio = BOARD_WIDTH / (BOARD_HEIGHT);
+        var app = new PIXI.Application({
+            width: BOARD_WIDTH,
+            height: BOARD_HEIGHT,
+            view: document.getElementById('board'),
+            antialias: true,
+            backgroundColor: 0x000010
+        });
+
+        window.onresize = function (event) {
+            debugger
+            var w = Math.min(window.innerWidth, screen.width);
+            var h = Math.min(window.innerHeight, Math.round(.7 * screen.height));
+
+            if (w / h >= ratio) {
+                w = Math.round(h * ratio);
+            } else {
+                h = Math.round(w / ratio);
+            }
+
+            app.renderer.view.style.width = (w - 2 * PADDING) + 'px';
+            app.renderer.view.style.height = (h - 2 * PADDING) + 'px';
+        };
+
+        window.onresize();
 
 
-        app.renderer.view.style.position = "relative"
-        app.renderer.view.style.width = 1500 + "px";
-        app.renderer.view.style.height = 700 + "px";
-        app.renderer.view.style.display = "block";
-        app.renderer.view.style.margin = "25px 50px 75px 100px";
-        
-        document.body.appendChild(app.view)
+        //app.renderer.view.style.position = "relative"
+        //app.renderer.view.style.width = 800 + "px";
+        //app.renderer.view.style.height = 800 + "px";
+        //app.renderer.view.style.display = "block";
+        //app.renderer.view.style.margin = "2px 2px 2px 3px";
+
+        //*document.body.appendChild(app.view)
 
         var viewport = new pixi_viewport.Viewport({
             // screenWidth: window.innerWidth,              // screen width used by viewport (eg, size of canvas)
             // screenHeight: window.innerHeight,            // screen height used by viewport (eg, size of canvas)
-            worldWidth: 1800,                        // world width used by viewport (automatically calculated based on container width)
-            worldHeight: 800,                      // world height used by viewport (automatically calculated based on container height)
+            //worldWidth: 500,                               // world width used by viewport (automatically calculated based on container width)
+            //worldHeight: 500,                               // world height used by viewport (automatically calculated based on container height)
             // threshold: 5,                                // number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
             // passiveWheel: true,                          // whether the 'wheel' event is set to passive (note: if false, e.preventDefault() will be called when wheel is used over the viewport)
             // stopPropagation: false,                      // whether to stopPropagation of events that impact the viewport (except wheel events, see options.passiveWheel)
@@ -76,14 +110,14 @@
                 // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
                 // axis: 'all',                 // axis to zoom
             })
-            .clamp({
-                left: true,                // whether to clamp to the left and at what value
-                right: false,               // whether to clamp to the right and at what value
-                top: false,                 // whether to clamp to the top and at what value
-                bottom: false,              // whether to clamp to the bottom and at what value
-                direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-                underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
-            })
+        //.clamp({
+        //    left: true,                // whether to clamp to the left and at what value
+        //    right: true,               // whether to clamp to the right and at what value
+        //    top: true,                 // whether to clamp to the top and at what value
+        //    bottom: true,              // whether to clamp to the bottom and at what value
+        //    direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+        //    //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+        //})
 
         // viewport.bounce({
         //     sides: 'all',                // all, horizontal, vertical, or combination of top, bottom, right, left(e.g., 'top-bottom-right')
@@ -173,31 +207,43 @@
 
         // add the viewport to the stage
         app.stage.addChild(viewport)
+        app.screen.width = 800;
+        app.screen.height = 800;
 
         const graphics = new PIXI.Graphics();
 
-        let y = 5;
+        // draw a shape
+        //graphics.beginFill(0xFF3300);
+        graphics.lineStyle(1, 0xffd900, 1);
+        // x ,
+        graphics.moveTo(0, 0);
+        graphics.lineTo(0, 800);
+        graphics.lineTo(800, 800);
+        graphics.lineTo(800, 0);
+        graphics.closePath();
+        //graphics.endFill();
 
-        for (let k = 0; k < yitems; k++) {
-            let x = 0;
+        //let y = 5;
 
-            for (let i = 0; i < xitems; i++) {
-                graphics.beginFill(colors[getRandomInt(9)]);
-                x = x + binsize + binmargin;
-                graphics.drawRect(x, y, binsize, binsize);
-                graphics.endFill();
-            }
+        //for (let k = 0; k < yitems; k++) {
+        //    let x = 0;
 
-            y = y + binsize + binmargin;
-        }
+        //    for (let i = 0; i < xitems; i++) {
+        //        graphics.beginFill(colors[getRandomInt(9)]);
+        //        x = x + binsize + binmargin;
+        //        graphics.drawRect(x, y, binsize, binsize);
+        //        graphics.endFill();
+        //    }
+
+        //    y = y + binsize + binmargin;
+        //}
 
         viewport.addChild(graphics);
 
         //app.stage.addChild(PIXI.Sprite.from('tree_icons.png'));
 
         //*viewport.addChild(PIXI.Sprite.from('tree_icons.png'));
-        debugger
-        const baseTexture = new PIXI.BaseTexture('wagon_shadow15.png');
+        const baseTexture = new PIXI.BaseTexture('Content/wagon_shadow15.png');
         //var texture = new PIXI.Texture(baseTexture, new PIXI.Rectangle(x, y, width, height));
         const texture1 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(75, 35, 60, 129));
         const texture2 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(20, 251, 168, 54));
@@ -206,10 +252,10 @@
         let bol = false;
 
         // create a texture from an image path
-        const texture3 = PIXI.Texture.from('wagon_shadow15.png');
+        const texture3 = PIXI.Texture.from('Content/wagon_shadow15.png');
 
         // create a second texture
-        const secondTexture = PIXI.Texture.from('loco_shadow15.png');
+        const secondTexture = PIXI.Texture.from('Content/loco_shadow15.png');
 
         // create a new Sprite using the texture
         const dude = new PIXI.Sprite(texture1);
@@ -218,8 +264,9 @@
         dude.anchor.set(0.5);
 
         // move the sprite to the center of the screen
-        dude.x = app.screen.width / 2;
-        dude.y = app.screen.height / 2;
+        dude.x = 100;
+        //dude.y = app.screen.height / 2;
+        dude.y = 100;
 
         app.stage.addChild(dude);
 
@@ -258,5 +305,5 @@
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    
+
 </script>
