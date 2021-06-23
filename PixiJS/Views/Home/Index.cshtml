@@ -142,22 +142,24 @@
         // })
 
         //viewport.clamp({
-        //    left: false,                // whether to clamp to the left and at what value
-        //    right: false,               // whether to clamp to the right and at what value
-        //    top: false,                 // whether to clamp to the top and at what value
-        //    bottom: false,              // whether to clamp to the bottom and at what value
-        //    direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-        //    underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+            //left: false,                // whether to clamp to the left and at what value
+            //right: false,               // whether to clamp to the right and at what value
+            //top: false,                 // whether to clamp to the top and at what value
+            //bottom: false,              // whether to clamp to the bottom and at what value
+            //direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+            //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
         //})
 
-        // viewport.clampZoom({
-        //     minWidth: null,                 // minimum width
-        //     minHeight: null,                // minimum height
-        //     maxWidth: null,                 // maximum width
-        //     maxHeight: null,                // maximum height
-        //     minScale: null,                 // minimum scale
-        //     maxScale: null,                 // minimum scale
-        // })
+         viewport.clamp({ direction: 'all', underflow: 'center' });
+
+         viewport.clampZoom({
+             minWidth: 20,                 // minimum width
+             minHeight: 20,                // minimum height
+             maxWidth: 1000,                 // maximum width
+             maxHeight: 1000,                // maximum height
+             minScale: 0,                 // minimum scale
+             maxScale: 10,                 // minimum scale
+         })
 
         // target.start()  // starts the target moving
         // viewport.follow(target.get(), {
@@ -207,8 +209,8 @@
 
         // add the viewport to the stage
         app.stage.addChild(viewport)
-        app.screen.width = 800;
-        app.screen.height = 800;
+        app.screen.width = 700;
+        app.screen.height = 700;
 
         const graphics = new PIXI.Graphics();
 
@@ -218,25 +220,25 @@
         // x ,
         graphics.moveTo(0, 0);
         graphics.lineTo(0, 800);
-        graphics.lineTo(800, 800);
-        graphics.lineTo(800, 0);
+        graphics.lineTo(3000, 800);
+        graphics.lineTo(3000, 0);
         graphics.closePath();
         //graphics.endFill();
 
-        //let y = 5;
+        let y = 5;
 
-        //for (let k = 0; k < yitems; k++) {
-        //    let x = 0;
+        for (let k = 0; k < yitems; k++) {
+            let x = 0;
 
-        //    for (let i = 0; i < xitems; i++) {
-        //        graphics.beginFill(colors[getRandomInt(9)]);
-        //        x = x + binsize + binmargin;
-        //        graphics.drawRect(x, y, binsize, binsize);
-        //        graphics.endFill();
-        //    }
+            for (let i = 0; i < xitems; i++) {
+                graphics.beginFill(colors[getRandomInt(9)]);
+                x = x + binsize + binmargin;
+                graphics.drawRect(x, y, binsize, binsize);
+                graphics.endFill();
+            }
 
-        //    y = y + binsize + binmargin;
-        //}
+            y = y + binsize + binmargin;
+        }
 
         viewport.addChild(graphics);
 
