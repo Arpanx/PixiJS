@@ -25,8 +25,8 @@
 
         //var ratio = BOARD_WIDTH / (BOARD_HEIGHT);
         var app = new PIXI.Application({
-            width: 1900,
-            height: 850,
+            width: 2000,
+            height: 1000,
             view: document.getElementById('board'),
             antialias: true,
             backgroundColor: 0x000010
@@ -111,14 +111,14 @@
                 // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
                 // axis: 'all',                 // axis to zoom
             })
-            //.clamp({
-            //    left: true,                // whether to clamp to the left and at what value
-            //    right: true,               // whether to clamp to the right and at what value
-            //    top: true,                 // whether to clamp to the top and at what value
-            //    bottom: true,              // whether to clamp to the bottom and at what value
-            //    direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-            //    //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
-            //})
+            .clamp({
+                left: true,                // whether to clamp to the left and at what value
+                right: true,               // whether to clamp to the right and at what value
+                top: true,                 // whether to clamp to the top and at what value
+                bottom: true,              // whether to clamp to the bottom and at what value
+                direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+                underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+            })
 
         // viewport.bounce({
         //     sides: 'all',                // all, horizontal, vertical, or combination of top, bottom, right, left(e.g., 'top-bottom-right')
@@ -151,12 +151,12 @@
             //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
         //})
 
-        viewport.clamp({ direction: 'all', underflow: 'topleft' });
+        //viewport.clamp({ direction: 'all', underflow: 'topleft' });
 
-        viewport.clampZoom({
-            minScale: 1,                 // minimum scale
-            maxScale: 20,                 // minimum scale
-        })
+        //viewport.clampZoom({
+        //    minScale: 1,                 // minimum scale
+        //    maxScale: 20,                 // minimum scale
+        //})
 
          //viewport.clampZoom({
          //    minWidth: 10,                 // minimum width
@@ -224,31 +224,21 @@
         //graphics.beginFill(0xFF3300);
         graphics.lineStyle(1, 0xffd900, 1);
         graphics.moveTo(0, 0);
-        graphics.lineTo(0, 850);
-        graphics.lineTo(2000, 850);
+        graphics.lineTo(0, 1000);
+        graphics.lineTo(2000, 1000);
         graphics.lineTo(2000, 0);
         graphics.closePath();
         //graphics.endFill();
 
 
-        // draw a shape
-        //graphics.beginFill(0xFF3300);
         graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(4, 4);
-        graphics.lineTo(4, 840);
-        graphics.lineTo(1975, 840);
-        graphics.lineTo(1975, 4);
-        graphics.closePath();
-        //graphics.endFill();
-
-        graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(4, 4);
-        graphics.lineTo(1975, 840);
+        graphics.moveTo(0, 0);
+        graphics.lineTo(2000, 1000);
         graphics.closePath();
 
         graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(4, 840);
-        graphics.lineTo(1975, 4);
+        graphics.moveTo(0, 1000);
+        graphics.lineTo(2000, 0);
         graphics.closePath();
         //let y = 5;
 
@@ -286,17 +276,22 @@
         const secondTexture = PIXI.Texture.from('/Content/loco_shadow15.png');
 
         // create a new Sprite using the texture
-        const dude = new PIXI.Sprite(texture1);
+        //const dude = new PIXI.Sprite(texture1);
+        const dude = viewport.addChild(new PIXI.Sprite(texture1));
+        //dude.tint = 0xff0000;
+        dude.width = 200;
+        dude.height = 100;
+        dude.position.set(100, 100);
 
         // center the sprites anchor point
         dude.anchor.set(0.5);
 
         // move the sprite to the center of the screen
-        dude.x = 100;
+        //dude.x = 100;
         //dude.y = app.screen.height / 2;
-        dude.y = 100;
+        //dude.y = 100;
 
-        app.stage.addChild(dude);
+        //app.stage.addChild(dude);
 
         // make the sprite interactive
         dude.interactive = true;
@@ -319,10 +314,11 @@
         //// add a red box at center
         //const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
         //sprite.tint = 0xff0000;
-        //sprite.width = sprite.height = 1000;
-        //sprite.position.set(-500, -500);
+        //sprite.width = sprite.height = 100;
+        //sprite.position.set(100, 100);
 
         viewport.fitWorld();
+        //viewport.moveCenter(2000 / 2, 1000 / 2)
     });
 
     function rand(n) {
