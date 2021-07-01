@@ -135,6 +135,7 @@
     <Content Include="Content\loco_shadow15.png" />
     <Content Include="Content\tablet.png" />
     <Content Include="Content\tree_icons.png" />
+    <Content Include="Content\wagon.svg" />
     <Content Include="Content\wagon_shadow15.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

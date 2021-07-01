@@ -240,6 +240,36 @@
         graphics.moveTo(0, 1000);
         graphics.lineTo(2000, 0);
         graphics.closePath();
+
+        var gr = new PIXI.Graphics();
+        //gr.beginFill(0xFFFFFF);
+        gr.lineStyle(3, 0xffffff, 3);
+        gr.drawCircle(200, 200, 10);   // (x, y, radius)
+        //gr.endFill();
+
+        gr.lineStyle(3, 0xffffff, 3);
+        gr.drawCircle(250, 200, 10);   // (x, y, radius)
+        //gr.endFill();
+
+
+        gr.moveTo(190, 190);
+        gr.lineTo(260, 190);
+        gr.moveTo(190, 190);
+        gr.lineTo(180, 150);
+        gr.lineTo(270, 150);
+        gr.lineTo(260, 190);
+        //gr.closePath();
+
+        var texture = app.renderer.generateTexture(gr);
+        var circle = new PIXI.Sprite(texture);
+
+        //app.stage.addChild(circle);
+        viewport.addChild(circle);
+
+        circle.width = 50;
+        circle.height = 50;
+        circle.position.set(200, 200);
+
         //let y = 5;
 
         //for (let k = 0; k < yitems; k++) {
@@ -271,6 +301,7 @@
 
         // create a texture from an image path
         const texture3 = PIXI.Texture.from('/Content/wagon_shadow15.png');
+        //const texture4 = PIXI.Texture.from('/Content/wagon.svg');
 
         // create a second texture
         const secondTexture = PIXI.Texture.from('/Content/loco_shadow15.png');
@@ -279,8 +310,8 @@
         //const dude = new PIXI.Sprite(texture1);
         const dude = viewport.addChild(new PIXI.Sprite(texture1));
         //dude.tint = 0xff0000;
-        dude.width = 200;
-        dude.height = 100;
+        dude.width = 186;
+        dude.height = 50;
         dude.position.set(100, 100);
 
         // center the sprites anchor point
@@ -306,10 +337,11 @@
             }
         });
 
-        //app.ticker.add(() => {
-        //    // just for fun, let's rotate mr rabbit a little
-        //    dude.rotation += 0.1;
-        //});
+        app.ticker.add(() => {
+            // just for fun, let's rotate mr rabbit a little
+            //dude.rotation += 0.1;
+            //dude.x = dude.x + 1;
+        });
 
         //// add a red box at center
         //const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
