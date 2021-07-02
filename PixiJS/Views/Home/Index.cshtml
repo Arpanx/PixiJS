@@ -8,29 +8,20 @@
         
     <br>*@
 <script>
+
+    //var app;
+    //var viewport;
+
     $(document).ready(function () {
-        var app;
-
-        let colors = [0xCD5C5C, 0x228B22, 0x00FFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0x4F02FF, 0x022B00, 0x2F8BB2, 0xBB8BFF];
-        let binsize = 10;
-        let binmargin = 1;
-        let xitems = 100;
-        let yitems = 50;
-        //app = new PIXI.Application()
-        //app = new PIXI.Application({ view: document.getElementById("board") })
-
-        //const BOARD_WIDTH = 1920;
-        //const BOARD_HEIGHT = 800;
-        //const PADDING = 0;
-
+        
         //var ratio = BOARD_WIDTH / (BOARD_HEIGHT);
-        var app = new PIXI.Application({
-            width: 2000,
-            height: 1000,
-            view: document.getElementById('board'),
-            antialias: true,
-            backgroundColor: 0x000010
-        });
+        //app = new PIXI.Application({
+        //    width: 2000,
+        //    height: 1300,
+        //    view: document.getElementById('board'),
+        //    antialias: true,
+        //    backgroundColor: 0x000010
+        //});
 
         //window.onresize = function (event) {
         //    var w = Math.min(window.innerWidth, screen.width);
@@ -60,296 +51,299 @@
 
         //*document.body.appendChild(app.view)
 
-        var viewport = new pixi_viewport.Viewport({
-            // screenWidth: window.innerWidth,              // screen width used by viewport (eg, size of canvas)
-            // screenHeight: window.innerHeight,            // screen height used by viewport (eg, size of canvas)
-            //worldWidth: 500,                               // world width used by viewport (automatically calculated based on container width)
-            //worldHeight: 500,                               // world height used by viewport (automatically calculated based on container height)
-            // threshold: 5,                                // number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
-            // passiveWheel: true,                          // whether the 'wheel' event is set to passive (note: if false, e.preventDefault() will be called when wheel is used over the viewport)
-            // stopPropagation: false,                      // whether to stopPropagation of events that impact the viewport (except wheel events, see options.passiveWheel)
-            // forceHitArea: null,                          // change the default hitArea from world size to a new value
-            // noTicker: false,                             // set this if you want to manually call update() function on each frame
-            // ticker: PIXI.Ticker.shared,                  // use this PIXI.ticker for updates
-            interaction: app.renderer.plugins.interaction,   // InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer position relative to canvas location on screen
-            // divWheel: null,                              // div to attach the wheel event (uses document.body as default)
-            // disableOnContextMenu: false,                 // remove oncontextmenu=() => {} from the divWheel element
-        })
-
-        viewport
-            .drag({
-                // direction: 'all',                // (x, y, or all) direction to drag
-                // pressDrag: true,                 // whether click to drag is active
-                // wheel: true,                     // use wheel to scroll in direction (unless wheel plugin is active)
-                // wheelScroll: 1,                  // number of pixels to scroll with each wheel spin
-                // reverse: false,                  // reverse the direction of the wheel scroll
-                // clampWheel: false,               // clamp wheel (to avoid weird bounce with mouse wheel)
-                // underflow: 'center',             // (top-left, top-center, etc.) where to place world if too small for screen
-                // factor: 1,                       // factor to multiply drag to increase the speed of movement
-                // mouseButtons: 'all',             // changes which mouse buttons trigger drag, use: 'all', 'left', right' 'middle', or some combination, like, 'middle-right'; you may want to set viewport.options.disableOnContextMenu if you want to use right-click dragging
-                // keyToPress: null,                // array containing https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code codes of keys that can be pressed for the drag to be triggered, e.g.: ['ShiftLeft', 'ShiftRight'}
-                // ignoreKeyToPressOnTouch: false,  // ignore keyToPress for touch events
-                // lineHeight: 20,                  // scaling factor for non-DOM_DELTA_PIXEL scrolling events (used for firefox mouse scrolling)
-            })
-            .decelerate({
-                // friction: 0.95,              // percent to decelerate after movement
-                // bounce: 0.8,                 // percent to decelerate when past boundaries (only applicable when viewport.bounce() is active)
-                // minSpeed: 0.01,              // minimum velocity before stopping/reversing acceleration
-            })
-            .pinch({
-                // noDrag: false,               // disable two-finger dragging
-                // percent: 1,                  // percent to modify pinch speed
-                // factor: 1,                   // factor to multiply two-finger drag to increase the speed of movement
-                // center: null,                // place this point at center during zoom instead of center of two fingers
-                // axis: 'all',                 // axis to zoom
-            })
-            .wheel({
-                // percent: 0.1,                // smooth the zooming by providing the number of frames to zoom between wheel spins
-                // interrupt: true,             // stop smoothing with any user input on the viewport
-                // reverse: false,              // reverse the direction of the scroll
-                // center: null,                // place this point at center during zoom instead of current mouse position
-                // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
-                // axis: 'all',                 // axis to zoom
-            })
-            .clamp({
-                left: true,                // whether to clamp to the left and at what value
-                right: true,               // whether to clamp to the right and at what value
-                top: true,                 // whether to clamp to the top and at what value
-                bottom: true,              // whether to clamp to the bottom and at what value
-                direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-                underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
-            })
-
-        // viewport.bounce({
-        //     sides: 'all',                // all, horizontal, vertical, or combination of top, bottom, right, left(e.g., 'top-bottom-right')
-        //     friction: 0.5,               // friction to apply to decelerate if active
-        //     time: 150,                   // time in ms to finish bounce
-        //     bounceBox: null,             // use this bounceBox instead of { x: 0, y: 0, width: viewport.worldWidth, height: viewport.worldHeight }
-        //     ease: 'easeInOutSine',       // ease function or name (see http://easings.net/ for supported names)
-        //     underflow: 'center',         // (top/bottom/center and left/right/center, or center) where to place world if too small for screen
-        // })
-
-        // viewport.animate({
-        //     time: 1000,                     // time to animate
-        //     position: null,                 // position to move viewport
-        //     width: null,                    // desired viewport width in world pixels (use instead of scale; aspect ratio is maintained if height is not provided)
-        //     height: null,                   // desired viewport height in world pixels(use instead of scale; aspect ratio is maintained if width is not provided)
-        //     scale: null,                    // scale to change zoom(scale.x = scale.y)
-        //     scaleX: null,                   // independently change zoom in x - direction
-        //     scaleY: null,                   // independently change zoom in y - direction
-        //     ease: 'linear',                 // easing function to use
-        //     callbackOnComplete: null,       // callback when animate is complete
-        //     removeOnInterrupt: false,	   // removes this plugin if interrupted by any user input
-        // })
-
-        //viewport.clamp({
-            //left: false,                // whether to clamp to the left and at what value
-            //right: false,               // whether to clamp to the right and at what value
-            //top: false,                 // whether to clamp to the top and at what value
-            //bottom: false,              // whether to clamp to the bottom and at what value
-            //direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-            //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+        //var viewport = new pixi_viewport.Viewport({
+        //    // screenWidth: window.innerWidth,              // screen width used by viewport (eg, size of canvas)
+        //    // screenHeight: window.innerHeight,            // screen height used by viewport (eg, size of canvas)
+        //    //worldWidth: 500,                               // world width used by viewport (automatically calculated based on container width)
+        //    //worldHeight: 500,                               // world height used by viewport (automatically calculated based on container height)
+        //    // threshold: 5,                                // number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
+        //    // passiveWheel: true,                          // whether the 'wheel' event is set to passive (note: if false, e.preventDefault() will be called when wheel is used over the viewport)
+        //    // stopPropagation: false,                      // whether to stopPropagation of events that impact the viewport (except wheel events, see options.passiveWheel)
+        //    // forceHitArea: null,                          // change the default hitArea from world size to a new value
+        //    // noTicker: false,                             // set this if you want to manually call update() function on each frame
+        //    // ticker: PIXI.Ticker.shared,                  // use this PIXI.ticker for updates
+        //    //interaction: app.renderer.plugins.interaction,   // InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer position relative to canvas location on screen
+        //    // divWheel: null,                              // div to attach the wheel event (uses document.body as default)
+        //    // disableOnContextMenu: false,                 // remove oncontextmenu=() => {} from the divWheel element
         //})
 
-        //viewport.clamp({ direction: 'all', underflow: 'topleft' });
+        //viewport
+        //    .drag({
+        //        // direction: 'all',                // (x, y, or all) direction to drag
+        //        // pressDrag: true,                 // whether click to drag is active
+        //        // wheel: true,                     // use wheel to scroll in direction (unless wheel plugin is active)
+        //        // wheelScroll: 1,                  // number of pixels to scroll with each wheel spin
+        //        // reverse: false,                  // reverse the direction of the wheel scroll
+        //        // clampWheel: false,               // clamp wheel (to avoid weird bounce with mouse wheel)
+        //        // underflow: 'center',             // (top-left, top-center, etc.) where to place world if too small for screen
+        //        // factor: 1,                       // factor to multiply drag to increase the speed of movement
+        //        // mouseButtons: 'all',             // changes which mouse buttons trigger drag, use: 'all', 'left', right' 'middle', or some combination, like, 'middle-right'; you may want to set viewport.options.disableOnContextMenu if you want to use right-click dragging
+        //        // keyToPress: null,                // array containing https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code codes of keys that can be pressed for the drag to be triggered, e.g.: ['ShiftLeft', 'ShiftRight'}
+        //        // ignoreKeyToPressOnTouch: false,  // ignore keyToPress for touch events
+        //        // lineHeight: 20,                  // scaling factor for non-DOM_DELTA_PIXEL scrolling events (used for firefox mouse scrolling)
+        //    })
+        //    .decelerate({
+        //        // friction: 0.95,              // percent to decelerate after movement
+        //        // bounce: 0.8,                 // percent to decelerate when past boundaries (only applicable when viewport.bounce() is active)
+        //        // minSpeed: 0.01,              // minimum velocity before stopping/reversing acceleration
+        //    })
+        //    .pinch({
+        //        // noDrag: false,               // disable two-finger dragging
+        //        // percent: 1,                  // percent to modify pinch speed
+        //        // factor: 1,                   // factor to multiply two-finger drag to increase the speed of movement
+        //        // center: null,                // place this point at center during zoom instead of center of two fingers
+        //        // axis: 'all',                 // axis to zoom
+        //    })
+        //    .wheel({
+        //        // percent: 0.1,                // smooth the zooming by providing the number of frames to zoom between wheel spins
+        //        // interrupt: true,             // stop smoothing with any user input on the viewport
+        //        // reverse: false,              // reverse the direction of the scroll
+        //        // center: null,                // place this point at center during zoom instead of current mouse position
+        //        // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
+        //        // axis: 'all',                 // axis to zoom
+        //    })
+        //    //.clamp({
+        //    //    left: true,                // whether to clamp to the left and at what value
+        //    //    right: true,               // whether to clamp to the right and at what value
+        //    //    top: true,                 // whether to clamp to the top and at what value
+        //    //    bottom: true,              // whether to clamp to the bottom and at what value
+        //    //    direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+        //    //    underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+        //    //})
 
-        //viewport.clampZoom({
-        //    minScale: 1,                 // minimum scale
-        //    maxScale: 20,                 // minimum scale
-        //})
+        //// viewport.bounce({
+        ////     sides: 'all',                // all, horizontal, vertical, or combination of top, bottom, right, left(e.g., 'top-bottom-right')
+        ////     friction: 0.5,               // friction to apply to decelerate if active
+        ////     time: 150,                   // time in ms to finish bounce
+        ////     bounceBox: null,             // use this bounceBox instead of { x: 0, y: 0, width: viewport.worldWidth, height: viewport.worldHeight }
+        ////     ease: 'easeInOutSine',       // ease function or name (see http://easings.net/ for supported names)
+        ////     underflow: 'center',         // (top/bottom/center and left/right/center, or center) where to place world if too small for screen
+        //// })
 
-         //viewport.clampZoom({
-         //    minWidth: 10,                 // minimum width
-         //    minHeight: 10,                // minimum height
-         //    maxWidth: 800,                 // maximum width
-         //    maxHeight: 800,                // maximum height
-         //    minScale: 10,                 // minimum scale
-         //    maxScale: 100,                 // minimum scale
-         //})
+        //// viewport.animate({
+        ////     time: 1000,                     // time to animate
+        ////     position: null,                 // position to move viewport
+        ////     width: null,                    // desired viewport width in world pixels (use instead of scale; aspect ratio is maintained if height is not provided)
+        ////     height: null,                   // desired viewport height in world pixels(use instead of scale; aspect ratio is maintained if width is not provided)
+        ////     scale: null,                    // scale to change zoom(scale.x = scale.y)
+        ////     scaleX: null,                   // independently change zoom in x - direction
+        ////     scaleY: null,                   // independently change zoom in y - direction
+        ////     ease: 'linear',                 // easing function to use
+        ////     callbackOnComplete: null,       // callback when animate is complete
+        ////     removeOnInterrupt: false,	   // removes this plugin if interrupted by any user input
+        //// })
 
-        // target.start()  // starts the target moving
-        // viewport.follow(target.get(), {
-        //     speed: 0,           // speed to follow in pixels/frame (0=teleport to location)
-        //     acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
-        //     radius: null,       // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
-        // })
+        ////viewport.clamp({
+        //    //left: false,                // whether to clamp to the left and at what value
+        //    //right: false,               // whether to clamp to the right and at what value
+        //    //top: false,                 // whether to clamp to the top and at what value
+        //    //bottom: false,              // whether to clamp to the bottom and at what value
+        //    //direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+        //    //underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+        ////})
 
-        // viewport.mouseEdges({
-        //     radius: null,           // distance from center of screen in screen pixels
-        //     distance: 20,           // distance from all sides in screen pixels
-        //     top: null,              // alternatively, set top distance (leave unset for no top scroll)
-        //     bottom: null,           // alternatively, set bottom distance (leave unset for no top scroll)
-        //     left: null,             // alternatively, set left distance (leave unset for no top scroll)
-        //     right: null,            // alternatively, set right distance (leave unset for no top scroll)
-        //     speed: 8,               // speed in pixels/frame to scroll viewport
-        //     reverse: false,         // reverse direction of scroll
-        //     noDecelerate: false,    // don't use decelerate plugin even if it's installed
-        //     linear: false,          // if using radius, use linear movement (+/- 1, +/- 1) instead of angled movement (Math.cos(angle from center), Math.sin(angle from center))
-        //     allowButtons: false,    // allows plugin to continue working even when there's a mousedown event
-        // })
+        ////viewport.clamp({ direction: 'all', underflow: 'topleft' });
 
-        // viewport.snap({
-        //     topLeft: false,             // snap to the top-left of viewport instead of center
-        //     friction: 0.8,              // friction/frame to apply if decelerate is active
-        //     time: 1000,                 // time for snapping in ms
-        //     ease: 'easeInOutSine',      // ease function or name (see http://easings.net/ for supported names)
-        //     interrupt: true,            // pause snapping with any user input on the viewport
-        //     removeOnComplete: false,    // removes this plugin after snapping is complete
-        //     removeOnInterrupt: false,   // removes this plugin if interrupted by any user input
-        //     forceStart: false,          // starts the snap immediately regardless of whether the viewport is at the desired location
-        // })
+        ////viewport.clampZoom({
+        ////    minScale: 1,                 // minimum scale
+        ////    maxScale: 20,                 // minimum scale
+        ////})
 
-        // viewport.snapZoom({
-        //     width: 0,                   // the desired width to snap (to maintain aspect ratio, choose only width or height)
-        //     height: 0,                  // the desired height to snap(to maintain aspect ratio, choose only width or height)
-        //     time: 1000,                 // time for snapping in ms
-        //     ease: 'easeInOutSine',      // ease function or name(see http://easings.net/ for supported names)
-        //     center: null,               // place this point at center during zoom instead of center of the viewport
-        //     interrupt: true,            // pause snapping with any user input on the viewport
-        //     removeOnComplete: false,    // removes this plugin after snapping is complete
-        //     removeOnInterrupt: false,   // removes this plugin if interrupted by any user input
-        //     forceStart: false,          // starts the snap immediately regardless of whether the viewport is at the desired zoom
-        //     noMove: false,              // zoom but do not move
-        // })
+        // //viewport.clampZoom({
+        // //    minWidth: 10,                 // minimum width
+        // //    minHeight: 10,                // minimum height
+        // //    maxWidth: 800,                 // maximum width
+        // //    maxHeight: 800,                // maximum height
+        // //    minScale: 10,                 // minimum scale
+        // //    maxScale: 100,                 // minimum scale
+        // //})
 
+        //// target.start()  // starts the target moving
+        //// viewport.follow(target.get(), {
+        ////     speed: 0,           // speed to follow in pixels/frame (0=teleport to location)
+        ////     acceleration: null, // set acceleration to accelerate and decelerate at this rate; speed cannot be 0 to use acceleration
+        ////     radius: null,       // radius (in world coordinates) of center circle where movement is allowed without moving the viewport
+        //// })
 
-        // add the viewport to the stage
-        app.stage.addChild(viewport)
-        //app.screen.width = 1920;
-        //app.screen.height = 1000;
+        //// viewport.mouseEdges({
+        ////     radius: null,           // distance from center of screen in screen pixels
+        ////     distance: 20,           // distance from all sides in screen pixels
+        ////     top: null,              // alternatively, set top distance (leave unset for no top scroll)
+        ////     bottom: null,           // alternatively, set bottom distance (leave unset for no top scroll)
+        ////     left: null,             // alternatively, set left distance (leave unset for no top scroll)
+        ////     right: null,            // alternatively, set right distance (leave unset for no top scroll)
+        ////     speed: 8,               // speed in pixels/frame to scroll viewport
+        ////     reverse: false,         // reverse direction of scroll
+        ////     noDecelerate: false,    // don't use decelerate plugin even if it's installed
+        ////     linear: false,          // if using radius, use linear movement (+/- 1, +/- 1) instead of angled movement (Math.cos(angle from center), Math.sin(angle from center))
+        ////     allowButtons: false,    // allows plugin to continue working even when there's a mousedown event
+        //// })
 
-        const graphics = new PIXI.Graphics();
+        //// viewport.snap({
+        ////     topLeft: false,             // snap to the top-left of viewport instead of center
+        ////     friction: 0.8,              // friction/frame to apply if decelerate is active
+        ////     time: 1000,                 // time for snapping in ms
+        ////     ease: 'easeInOutSine',      // ease function or name (see http://easings.net/ for supported names)
+        ////     interrupt: true,            // pause snapping with any user input on the viewport
+        ////     removeOnComplete: false,    // removes this plugin after snapping is complete
+        ////     removeOnInterrupt: false,   // removes this plugin if interrupted by any user input
+        ////     forceStart: false,          // starts the snap immediately regardless of whether the viewport is at the desired location
+        //// })
 
-        // draw a shape
-        //graphics.beginFill(0xFF3300);
-        graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(0, 0);
-        graphics.lineTo(0, 1000);
-        graphics.lineTo(2000, 1000);
-        graphics.lineTo(2000, 0);
-        graphics.closePath();
-        //graphics.endFill();
-
-
-        graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(0, 0);
-        graphics.lineTo(2000, 1000);
-        graphics.closePath();
-
-        graphics.lineStyle(1, 0xffd900, 1);
-        graphics.moveTo(0, 1000);
-        graphics.lineTo(2000, 0);
-        graphics.closePath();
-
-        var gr = new PIXI.Graphics();
-        //gr.beginFill(0xFFFFFF);
-        gr.lineStyle(3, 0xffffff, 3);
-        gr.drawCircle(200, 200, 10);   // (x, y, radius)
-        //gr.endFill();
-
-        gr.lineStyle(3, 0xffffff, 3);
-        gr.drawCircle(250, 200, 10);   // (x, y, radius)
-        //gr.endFill();
+        //// viewport.snapZoom({
+        ////     width: 0,                   // the desired width to snap (to maintain aspect ratio, choose only width or height)
+        ////     height: 0,                  // the desired height to snap(to maintain aspect ratio, choose only width or height)
+        ////     time: 1000,                 // time for snapping in ms
+        ////     ease: 'easeInOutSine',      // ease function or name(see http://easings.net/ for supported names)
+        ////     center: null,               // place this point at center during zoom instead of center of the viewport
+        ////     interrupt: true,            // pause snapping with any user input on the viewport
+        ////     removeOnComplete: false,    // removes this plugin after snapping is complete
+        ////     removeOnInterrupt: false,   // removes this plugin if interrupted by any user input
+        ////     forceStart: false,          // starts the snap immediately regardless of whether the viewport is at the desired zoom
+        ////     noMove: false,              // zoom but do not move
+        //// })
 
 
-        gr.moveTo(190, 190);
-        gr.lineTo(260, 190);
-        gr.moveTo(190, 190);
-        gr.lineTo(180, 150);
-        gr.lineTo(270, 150);
-        gr.lineTo(260, 190);
-        //gr.closePath();
+        //// add the viewport to the stage
+        //app.stage.addChild(viewport)
+        ////app.screen.width = 1920;
+        ////app.screen.height = 1000;
 
-        var texture = app.renderer.generateTexture(gr);
-        var circle = new PIXI.Sprite(texture);
+        //const graphics = new PIXI.Graphics();
 
-        //app.stage.addChild(circle);
-        viewport.addChild(circle);
+        //// draw a shape
+        ////graphics.beginFill(0xFF3300);
+        //graphics.lineStyle(1, 0xffd900, 1);
+        //graphics.moveTo(0, 0);
+        //graphics.lineTo(0, 5000);
+        //graphics.lineTo(10000, 5000);
+        //graphics.lineTo(10000, 0);
+        //graphics.closePath();
+        ////graphics.endFill();
 
-        circle.width = 50;
-        circle.height = 50;
-        circle.position.set(200, 200);
 
-        //let y = 5;
+        //graphics.lineStyle(1, 0xffd900, 1);
+        //graphics.moveTo(0, 0);
+        //graphics.lineTo(10000, 5000);
+        //graphics.closePath();
 
-        //for (let k = 0; k < yitems; k++) {
-        //    let x = 0;
+        //graphics.lineStyle(1, 0xffd900, 1);
+        //graphics.moveTo(0, 5000);
+        //graphics.lineTo(10000, 0);
+        //graphics.closePath();
 
-        //    for (let i = 0; i < xitems; i++) {
-        //        graphics.beginFill(colors[getRandomInt(9)]);
-        //        x = x + binsize + binmargin;
-        //        graphics.drawRect(x, y, binsize, binsize);
-        //        graphics.endFill();
-        //    }
 
-        //    y = y + binsize + binmargin;
-        //}
 
-        viewport.addChild(graphics);
+        //var gr = new PIXI.Graphics();
 
-        //app.stage.addChild(PIXI.Sprite.from('tree_icons.png'));
 
-        //*viewport.addChild(PIXI.Sprite.from('tree_icons.png'));
-        const baseTexture = new PIXI.BaseTexture('/Content/wagon_shadow15.png');
-        //var texture = new PIXI.Texture(baseTexture, new PIXI.Rectangle(x, y, width, height));
-        const texture1 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(20, 251, 168, 54));
-        const texture2 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(75, 35, 60, 129));
+        //gr.lineStyle(3, 0xffffff, 3);
+        //gr.drawCircle(0,   0, 20);   // (x, y, radius)  // 1 колесо
+        //gr.drawCircle(50,  0, 20);   // (x, y, radius)  // 2 колесо
+        //gr.drawCircle(250, 0, 20);   // (x, y, radius)  // 3 колесо
+        //gr.drawCircle(300, 0, 20);   // (x, y, radius)  // 4 колесо
+
+        //gr.moveTo(-40, -24);
+        //gr.lineTo(328, -24); // горизонтальная линия платформы
+        //gr.moveTo(-26, -24); // установка
+        //gr.lineTo(-26, -214);
+        //gr.lineTo(310, -214);
+        //gr.lineTo(310, -24);
+        //gr.moveTo(-26, -48);
+        //gr.lineTo(310, -48);
+
+        ////gr.closePath();
+
+        //var texture = app.renderer.generateTexture(gr);
+        //var circle = new PIXI.Sprite(texture);
+
+        ////app.stage.addChild(circle);
+        //viewport.addChild(circle);
+
+        //circle.width = 50;
+        //circle.height = 50;
+        //circle.position.set(200, 200);
+
+        ////let y = 5;
+
+        ////for (let k = 0; k < yitems; k++) {
+        ////    let x = 0;
+
+        ////    for (let i = 0; i < xitems; i++) {
+        ////        graphics.beginFill(colors[getRandomInt(9)]);
+        ////        x = x + binsize + binmargin;
+        ////        graphics.drawRect(x, y, binsize, binsize);
+        ////        graphics.endFill();
+        ////    }
+
+        ////    y = y + binsize + binmargin;
+        ////}
+
+        //viewport.addChild(graphics);
+
+        ////app.stage.addChild(PIXI.Sprite.from('tree_icons.png'));
+
+        ////*viewport.addChild(PIXI.Sprite.from('tree_icons.png'));
+        ////*const baseTexture = new PIXI.BaseTexture('/Content/wagon_shadow15.png');
+        ////var texture = new PIXI.Texture(baseTexture, new PIXI.Rectangle(x, y, width, height));
+        ////const texture1 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(20, 251, 168, 54));
+        ////const texture2 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(75, 35, 60, 129));
         
-        //var sprite = PIXI.Sprite.from(texture);
+        ////var sprite = PIXI.Sprite.from(texture);
 
-        let bol = true;
+        //let bol = true;
 
-        // create a texture from an image path
-        const texture3 = PIXI.Texture.from('/Content/wagon_shadow15.png');
-        //const texture4 = PIXI.Texture.from('/Content/wagon.svg');
+        //// create a texture from an image path
+        ////const texture3 = PIXI.Texture.from('/Content/wagon_shadow15.png');
+        ////const texture4 = PIXI.Texture.from('/Content/wagon.svg');
 
-        // create a second texture
-        const secondTexture = PIXI.Texture.from('/Content/loco_shadow15.png');
+        //// create a second texture
+        ////const secondTexture = PIXI.Texture.from('/Content/loco_shadow15.png');
 
-        // create a new Sprite using the texture
-        //const dude = new PIXI.Sprite(texture1);
-        const dude = viewport.addChild(new PIXI.Sprite(texture1));
-        //dude.tint = 0xff0000;
-        dude.width = 186;
-        dude.height = 50;
-        dude.position.set(100, 100);
+        //// create a new Sprite using the texture
+        ////const dude = new PIXI.Sprite(texture1);
+        ////const dude = viewport.addChild(new PIXI.Sprite(texture1));
+        //////dude.tint = 0xff0000;
+        ////dude.width = 186;
+        ////dude.height = 50;
+        ////dude.position.set(100, 100);
 
-        // center the sprites anchor point
-        dude.anchor.set(0.5);
+        ////// center the sprites anchor point
+        ////dude.anchor.set(0.5);
 
-        // move the sprite to the center of the screen
-        //dude.x = 100;
-        //dude.y = app.screen.height / 2;
-        //dude.y = 100;
+        //// move the sprite to the center of the screen
+        ////dude.x = 100;
+        ////dude.y = app.screen.height / 2;
+        ////dude.y = 100;
 
-        //app.stage.addChild(dude);
+        ////app.stage.addChild(dude);
 
-        // make the sprite interactive
-        dude.interactive = true;
-        dude.buttonMode = true;
+        //// make the sprite interactive
+        ////dude.interactive = true;
+        ////dude.buttonMode = true;
 
-        dude.on('pointertap', () => {
-            bol = !bol;
-            if (bol) {
-                dude.texture = texture2;
-            } else {
-                dude.texture = texture1;
-            }
-        });
+        ////dude.on('pointertap', () => {
+        ////    bol = !bol;
+        ////    if (bol) {
+        ////        dude.texture = texture2;
+        ////    } else {
+        ////        dude.texture = texture1;
+        ////    }
+        ////});
 
-        app.ticker.add(() => {
-            // just for fun, let's rotate mr rabbit a little
-            //dude.rotation += 0.1;
-            //dude.x = dude.x + 1;
-        });
+        ////app.ticker.add(() => {
+        ////    // just for fun, let's rotate mr rabbit a little
+        ////    //dude.rotation += 0.1;
+        ////    //dude.x = dude.x + 1;
+        ////});
 
-        //// add a red box at center
-        //const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
-        //sprite.tint = 0xff0000;
-        //sprite.width = sprite.height = 100;
-        //sprite.position.set(100, 100);
+        ////// add a red box at center
+        ////const sprite = viewport.addChild(new PIXI.Sprite(PIXI.Texture.WHITE));
+        ////sprite.tint = 0xff0000;
+        ////sprite.width = sprite.height = 100;
+        ////sprite.position.set(100, 100);
 
-        viewport.fitWorld();
+        //viewport.fitWorld()
         //viewport.moveCenter(2000 / 2, 1000 / 2)
     });
 

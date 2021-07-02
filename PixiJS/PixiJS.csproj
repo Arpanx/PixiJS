@@ -144,6 +144,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\game.js" />
+    <Content Include="Scripts\index.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
