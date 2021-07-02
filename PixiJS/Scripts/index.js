@@ -1,15 +1,9 @@
 ﻿//import Game from './game.js';
-import Vagon from './vagon.js';
+import { Vagon1 } from './vagon.js';
+import { RailwayLine1 } from './railwayLine.js';
 
-$(document).ready(function () {    
-    //var graphics = new PIXI.Graphics();
-    //let v1 = new Vagon(window.app, window.viewport, graphics);
-    //v1.draw()
-
-    debugger
-    let tt = document.getElementById('board'),
-
-    app = new PIXI.Application({
+$(document).ready(function () {
+    var app = new PIXI.Application({
         width: 2000,
         height: 1300,
         view: document.getElementById('board'),
@@ -28,7 +22,7 @@ $(document).ready(function () {
         // forceHitArea: null,                          // change the default hitArea from world size to a new value
         // noTicker: false,                             // set this if you want to manually call update() function on each frame
         // ticker: PIXI.Ticker.shared,                  // use this PIXI.ticker for updates
-        interaction: app.renderer.plugins.interaction,  // InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer position relative to canvas location on screen
+        //interaction: app.renderer.plugins.interaction,  // InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer position relative to canvas location on screen
         // divWheel: null,                              // div to attach the wheel event (uses document.body as default)
         // disableOnContextMenu: false,                 // remove oncontextmenu=() => {} from the divWheel element
     })
@@ -103,4 +97,8 @@ $(document).ready(function () {
     viewport.addChild(graphics);
 
     viewport.fitWorld();
+
+    let rw1 = new RailwayLine1(app, viewport);
+    rw1.draw();
+    //let v1 = new Vagon1(app, viewport);
 });
