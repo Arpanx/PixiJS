@@ -1,5 +1,5 @@
 ﻿//import Game from './game.js';
-import { Vagon1 } from './vagon.js';
+import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8 } from './vagon.js';
 import { RailwayLine1 } from './railwayLine.js';
 
 $(document).ready(function () {
@@ -8,7 +8,7 @@ $(document).ready(function () {
         height: 1300,
         view: document.getElementById('board'),
         antialias: true,
-        backgroundColor: 0x000010
+        backgroundColor: 0xffffff
     });
 
     var viewport = new pixi_viewport.Viewport({
@@ -99,6 +99,42 @@ $(document).ready(function () {
     viewport.fitWorld();
 
     let rw1 = new RailwayLine1(app, viewport);
-    rw1.draw();
-    //let v1 = new Vagon1(app, viewport);
+    rw1.draw(200, 253, 1000); // startX, startY, endX
+    // let v1 = new Vagon1(app, viewport);
+    // v1.draw();
+    let va1 = new Vagon1(app, viewport);
+    va1.vagonText.text ='1234';
+    // let va12 = new Vagon1(app, viewport);
+    // va12.vagonText.text ='5678';
+    let va2 = new Vagon2(app, viewport);
+    va2.vagonText.text ='9012';
+    let va3 = new Vagon3(app, viewport);
+    va3.vagonText.text ='3456';
+
+    let va4 = new Vagon4(app, viewport);
+    va4.vagonText.text ='7890';
+    
+    let va5 = new Vagon5(app, viewport);
+    va5.vagonText.text ='1234';
+
+    let va6 = new Vagon6(app, viewport);
+    va6.vagonText.text ='5678';
+
+    let va7 = new Vagon7(app, viewport);
+    va7.vagonText.text ='9012';
+
+    let va8 = new Vagon8(app, viewport);
+    va8.vagonText.text ='3456';
+
+    rw1.addVagon(va1);
+    //rw1.addVagon(va12);
+    rw1.addVagon(va2);
+    rw1.addVagon(va3);
+    rw1.addVagon(va4);
+    rw1.addVagon(va5);
+    rw1.addVagon(va6);
+    rw1.addVagon(va7);
+    rw1.addVagon(va8);
+
+    rw1.refresh();
 });
