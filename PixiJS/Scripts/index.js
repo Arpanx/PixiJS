@@ -1,5 +1,5 @@
 ﻿//import Game from './game.js';
-import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8 } from './vagon.js';
+import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 } from './vagon.js';
 import { RailwayLine1 } from './railwayLine.js';
 
 $(document).ready(function () {
@@ -108,23 +108,35 @@ $(document).ready(function () {
     // va12.vagonText.text ='5678';
     let va2 = new Vagon2(app, viewport);
     va2.vagonText.text ='9012';
+    va2.color = 0x00ff00;
+    va2.isBar = false;
+
     let va3 = new Vagon3(app, viewport);
     va3.vagonText.text ='3456';
+    va3.isBar = true;
+    va3.barColor = 0x00ff00;
 
     let va4 = new Vagon4(app, viewport);
     va4.vagonText.text ='7890';
+    va4.barColor = 0xfff703;
     
     let va5 = new Vagon5(app, viewport);
     va5.vagonText.text ='1234';
 
     let va6 = new Vagon6(app, viewport);
     va6.vagonText.text ='5678';
+    va6.isBar = false;
 
     let va7 = new Vagon7(app, viewport);
     va7.vagonText.text ='9012';
+    va7.barColor = 0xff03e6;
 
     let va8 = new Vagon8(app, viewport);
     va8.vagonText.text ='3456';
+
+    let va9 = new Vagon9(app, viewport);
+    va9.color = 0x0000ff;
+    va9.vagonText.text ='7890';
 
     rw1.addVagon(va1);
     //rw1.addVagon(va12);
@@ -135,6 +147,7 @@ $(document).ready(function () {
     rw1.addVagon(va6);
     rw1.addVagon(va7);
     rw1.addVagon(va8);
+    rw1.addVagon(va9);
 
     rw1.refresh();
 });
