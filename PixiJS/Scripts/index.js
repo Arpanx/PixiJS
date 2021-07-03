@@ -1,6 +1,7 @@
 ﻿//import Game from './game.js';
 import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 } from './vagon.js';
 import { RailwayLine1 } from './railwayLine.js';
+import { Node1 } from './node-element.js';
 
 $(document).ready(function () {
     InitMap1();    
@@ -40,6 +41,10 @@ function InitMap1(params) {
          })
 
     app.stage.addChild(viewport)
+
+
+    let node1 = new Node1(app, viewport);
+    node1.draw(100, 100);
 
     var graphics = new PIXI.Graphics();
     // draw a shape
@@ -111,6 +116,8 @@ function InitMap1(params) {
         //dude.rotation += 0.1;
         //dude.x = dude.x + 1;
     });
+
+
 }
 
 function InitMap2(params) {
