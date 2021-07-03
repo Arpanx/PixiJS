@@ -36,31 +36,10 @@ export class RailwayLineAbstract {
         var endX = 0;
     }
 
-    draw() {        
-        // this.graphics.lineStyle(3, 0xffffff, 3);
-        // this.graphics.drawCircle(0,   0, 20);   // (x, y, radius)  // 1 колесо
-        // this.graphics.drawCircle(50,  0, 20);   // (x, y, radius)  // 2 колесо
-        // this.graphics.drawCircle(250, 0, 20);   // (x, y, radius)  // 3 колесо
-        // this.graphics.drawCircle(300, 0, 20);   // (x, y, radius)  // 4 колесо
-
-        // this.graphics.moveTo(-40, -24);
-        // this.graphics.lineTo(328, -24); // горизонтальная линия платформы
-        // this.graphics.moveTo(-26, -24); // установка
-        // this.graphics.lineTo(-26, -214);
-        // this.graphics.lineTo(310, -214);
-        // this.graphics.lineTo(310, -24);
-        // this.graphics.moveTo(-26, -48);
-        // this.graphics.lineTo(310, -48);
-        // var texture = this.app.renderer.generateTexture(this.graphics);
-        // var circle = new PIXI.Sprite(texture);
-        // this.viewport.addChild(circle);
-        // circle.width = 50;
-        // circle.height = 50;
-        // circle.position.set(200, 200);
-        
-        // this.viewport.addChild(this.text);
-        // this.viewport.addChild(this.rectangle);
-        // this.rectangle.visible = true;
+    draw(startX, startY, endX) {  
+        this.startX = startX;
+        this.startY = startY;
+        this.endX = endX;
     }
 
     setText(text) {
@@ -75,12 +54,9 @@ export class RailwayLine1 extends RailwayLineAbstract {
     }
 
     draw(startX, startY, endX) {
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-
-        this.graphics.lineStyle(2, 0xff1900, 2);
+        super.draw(startX, startY, endX);
         
+        this.graphics.lineStyle(2, 0xff1900, 2);
         this.graphics.moveTo(this.startX, this.startY);
         this.graphics.lineTo(this.endX, this.startY); // горизонтальная линия платформы
 
@@ -101,7 +77,7 @@ export class RailwayLine1 extends RailwayLineAbstract {
         for (let index = 0; index < this.vagonArray.length; ++index) {
             let vagon = this.vagonArray[index];
             let offsetResult = this.startX + offset * index;
-            vagon.draw(offsetResult, 200);
+            vagon.draw(offsetResult, this.startY - 52);
             // if (tt === 1){
             //     let v1 = new Vagon1(this.app, this.viewport);
             //     v1.draw();

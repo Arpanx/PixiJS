@@ -86,7 +86,6 @@ export class Vagon2 extends VagonAbstract {
     }
 
     draw(startX, startY) {
-        debugger
         super.draw(startX, startY);
 
         this.graphics.drawCircle(0,   0, 20);   // (x, y, radius)  // 1 колесо

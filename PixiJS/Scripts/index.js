@@ -3,29 +3,126 @@ import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 
 import { RailwayLine1 } from './railwayLine.js';
 
 $(document).ready(function () {
+    InitMap1();    
+});
+
+function InitMap1(params) {
     var app = new PIXI.Application({
-        width: 2000,
-        height: 1300,
-        view: document.getElementById('board'),
+        width: 1800,
+        height: 800,
+        view: document.getElementById('board1'),
         antialias: true,
         backgroundColor: 0xffffff
     });
 
-    var viewport = new pixi_viewport.Viewport({
-        // screenWidth: window.innerWidth,              // screen width used by viewport (eg, size of canvas)
-        // screenHeight: window.innerHeight,            // screen height used by viewport (eg, size of canvas)
-        //worldWidth: 500,                              // world width used by viewport (automatically calculated based on container width)
-        //worldHeight: 500,                             // world height used by viewport (automatically calculated based on container height)
-        // threshold: 5,                                // number of pixels to move to trigger an input event (e.g., drag, pinch) or disable a clicked event
-        // passiveWheel: true,                          // whether the 'wheel' event is set to passive (note: if false, e.preventDefault() will be called when wheel is used over the viewport)
-        // stopPropagation: false,                      // whether to stopPropagation of events that impact the viewport (except wheel events, see options.passiveWheel)
-        // forceHitArea: null,                          // change the default hitArea from world size to a new value
-        // noTicker: false,                             // set this if you want to manually call update() function on each frame
-        // ticker: PIXI.Ticker.shared,                  // use this PIXI.ticker for updates
-        //interaction: app.renderer.plugins.interaction,  // InteractionManager, available from instantiated WebGLRenderer/CanvasRenderer.plugins.interaction - used to calculate pointer position relative to canvas location on screen
-        // divWheel: null,                              // div to attach the wheel event (uses document.body as default)
-        // disableOnContextMenu: false,                 // remove oncontextmenu=() => {} from the divWheel element
-    })
+    var viewport = new pixi_viewport.Viewport({})
+
+    viewport
+        .drag({
+        })
+        .decelerate({
+        })
+        .pinch({            
+        })
+        .wheel({
+        })
+        .clamp({
+            left: true,                // whether to clamp to the left and at what value
+            right: true,               // whether to clamp to the right and at what value
+            top: true,                 // whether to clamp to the top and at what value
+            bottom: true,              // whether to clamp to the bottom and at what value
+            direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+            underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+         })
+         .clampZoom({
+             minScale: 0.9,                 // minimum scale
+             maxScale: 4,                // minimum scale
+         })
+
+    app.stage.addChild(viewport)
+
+    var graphics = new PIXI.Graphics();
+    // draw a shape
+    graphics.lineStyle(1, 0xffd900, 1);
+    graphics.moveTo(0, 0);
+    graphics.lineTo(0, 800);
+    graphics.lineTo(1800, 800);
+    graphics.lineTo(1800, 0);
+    graphics.closePath();
+    //graphics.endFill();
+
+    graphics.lineStyle(1, 0xffd900, 1);
+    graphics.moveTo(0, 0);
+    graphics.lineTo(1800, 800);
+    graphics.closePath();
+
+    graphics.lineStyle(1, 0xffd900, 1);
+    graphics.moveTo(0, 800);
+    graphics.lineTo(1800, 0);
+    graphics.closePath();
+
+    viewport.addChild(graphics);
+
+    viewport.fitWorld();
+    viewport.moveCenter(900, 400);
+    viewport.setZoom (1, false)
+    //viewport.zoo,
+    const baseTexture = new PIXI.BaseTexture('/Content/wagon_shadow15.png');
+    //var texture = new PIXI.Texture(baseTexture, new PIXI.Rectangle(x, y, width, height));
+    const texture1 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(20, 251, 168, 54));
+    const texture2 = new PIXI.Texture(baseTexture, new PIXI.Rectangle(75, 35, 60, 129));
+    const dude = viewport.addChild(new PIXI.Sprite(texture1));
+    //dude.tint = 0xff0000;
+    dude.width = 186;
+    dude.height = 50;
+    dude.position.set(900, 400);
+
+    // center the sprites anchor point
+    dude.anchor.set(0.5);
+
+    // move the sprite to the center of the screen
+    // dude.x = 100;
+    // dude.y = app.screen.height / 2;
+    // dude.y = 100;
+    viewport.addChild(dude);
+    //app.stage.addChild(dude);
+
+    // make the sprite interactive
+    dude.interactive = true;
+    dude.buttonMode = true;
+    var bool = true;
+    var modal = document.getElementById("myModal");
+
+    dude.on('pointertap', () => {
+        bool = !bool;
+        if (bool) {
+            debugger
+            modal.style.display = "block";
+            InitMap2();
+            //dude.texture = texture2;
+        } else {
+            modal.style.display = "none";
+            //dude.texture = texture1;
+        }
+    });
+
+    app.ticker.add(() => {
+        // just for fun, let's rotate mr rabbit a little
+        //dude.rotation += 0.1;
+        //dude.x = dude.x + 1;
+    });
+}
+
+function InitMap2(params) {
+    var app = new PIXI.Application({
+        width: 1800,
+        height: 1300,
+        view: document.getElementById('board2'),
+        antialias: true,
+        backgroundColor: 0xffffff
+    });
+
+    var viewport = new pixi_viewport.Viewport({})
 
     viewport
         .drag({
@@ -62,44 +159,50 @@ $(document).ready(function () {
             // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
             // axis: 'all',                 // axis to zoom
         })
-        //.clamp({
-        //    left: true,                // whether to clamp to the left and at what value
-        //    right: true,               // whether to clamp to the right and at what value
-        //    top: true,                 // whether to clamp to the top and at what value
-        //    bottom: true,              // whether to clamp to the bottom and at what value
-        //    direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-        //    underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
-        //})
+        .clamp({
+           left: true,                // whether to clamp to the left and at what value
+           right: true,               // whether to clamp to the right and at what value
+           top: true,                 // whether to clamp to the top and at what value
+           bottom: true,              // whether to clamp to the bottom and at what value
+           direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+           underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+        })
+        .clampZoom({
+            minScale: 0.7,                 // minimum scale
+            maxScale: 5,                // minimum scale
+        })
 
     app.stage.addChild(viewport)
 
     var graphics = new PIXI.Graphics();
     // draw a shape
     //graphics.beginFill(0xFF3300);
-    graphics.lineStyle(1, 0xffd900, 1);
+    graphics.lineStyle(10, 0x0062ff, 1);
     graphics.moveTo(0, 0);
-    graphics.lineTo(0, 5000);
-    graphics.lineTo(10000, 5000);
-    graphics.lineTo(10000, 0);
+    graphics.lineTo(0, 1800);
+    graphics.lineTo(1800, 1800);
+    graphics.lineTo(1800, 0);
     graphics.closePath();
     //graphics.endFill();
 
-    graphics.lineStyle(1, 0xffd900, 1);
-    graphics.moveTo(0, 0);
-    graphics.lineTo(10000, 5000);
-    graphics.closePath();
+    // graphics.lineStyle(1, 0xffd900, 1);
+    // graphics.moveTo(0, 0);
+    // graphics.lineTo(5000, 2500);
+    // graphics.closePath();
 
-    graphics.lineStyle(1, 0xffd900, 1);
-    graphics.moveTo(0, 5000);
-    graphics.lineTo(10000, 0);
-    graphics.closePath();
+    // graphics.lineStyle(1, 0xffd900, 1);
+    // graphics.moveTo(0, 2500);
+    // graphics.lineTo(5000, 0);
+    // graphics.closePath();
 
     viewport.addChild(graphics);
 
     viewport.fitWorld();
+    viewport.moveCenter(500, 200);
+    viewport.setZoom (1, false)
 
     let rw1 = new RailwayLine1(app, viewport);
-    rw1.draw(200, 253, 1000); // startX, startY, endX
+    rw1.draw(500, 500, 1000); // startX, startY, endX
     // let v1 = new Vagon1(app, viewport);
     // v1.draw();
     let va1 = new Vagon1(app, viewport);
@@ -150,4 +253,4 @@ $(document).ready(function () {
     rw1.addVagon(va9);
 
     rw1.refresh();
-});
+}
