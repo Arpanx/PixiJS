@@ -1,4 +1,4 @@
-﻿import { Vagon1, VagonAbstract } from './vagon.js';
+﻿import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 } from './vagon.js';
 
 export class RailwayLineAbstract {
     
@@ -11,6 +11,8 @@ export class RailwayLineAbstract {
         this.viewport = viewport;
         //this.graphics = graphics;
         this.vagonArray = new Array(0);
+        this.offset = 55; // Ширина вагона 55 
+        this.offsetStart = 100; // Отступ от начала ЖД линии
         //this.vagonArray = new VagonAbstract(this.app, this.viewport)[1];
 
         this.graphics = new PIXI.Graphics();
@@ -64,8 +66,8 @@ export class RailwayLine1 extends RailwayLineAbstract {
         var railwayLine = new PIXI.Sprite(texture);
         this.viewport.addChild(railwayLine);
         railwayLine.width = this.endX;
-        railwayLine.height = 4;
-        railwayLine.position.set(this.startX, this.startY);
+        railwayLine.height = 6;
+        railwayLine.position.set(this.startX, this.startY - 3);
     }
 
     addVagon(vagon){
@@ -73,15 +75,11 @@ export class RailwayLine1 extends RailwayLineAbstract {
     }
 
     refresh(){
-        let offset = 55;
         for (let index = 0; index < this.vagonArray.length; ++index) {
             let vagon = this.vagonArray[index];
-            let offsetResult = this.startX + offset * index;
+            let offsetResult = this.offsetStart + this.startX + this.offset * index;
             vagon.draw(offsetResult, this.startY - 52);
-            // if (tt === 1){
-            //     let v1 = new Vagon1(this.app, this.viewport);
-            //     v1.draw();
-            // }
+            
         }
     }
 }

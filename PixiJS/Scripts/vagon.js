@@ -71,10 +71,24 @@ export class Vagon1 extends VagonAbstract {
         this.graphics.lineTo(310, -48);        
         var texture = this.app.renderer.generateTexture(this.graphics);
         var vagonSprite = new PIXI.Sprite(texture);
+        debugger
+        vagonSprite.interactive = true;
+        vagonSprite.buttonMode = true;
+        
+        vagonSprite.vagonText = this.vagonText.text;
+        vagonSprite.on('pointertap',function(e) { 
+            debugger
+            var vagonText = e.target.vagonText;
+            alert(vagonText);
+        });
+
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 50;
-        vagonSprite.position.set(this.startX, this.startY);
+        vagonSprite.position.set(this.startX, this.startY - 3);
+
+        
+
         this.vagonText.position.set(this.startX + 10, this.startY + 10);        
         this.viewport.addChild(this.vagonText);        
     }
@@ -126,7 +140,7 @@ export class Vagon2 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 25;
-        vagonSprite.position.set(this.startX, this.startY + 25 );
+        vagonSprite.position.set(this.startX, this.startY + 22 );
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.viewport.addChild(this.vagonText);
     }
@@ -162,7 +176,7 @@ export class Vagon3 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 25;
-        vagonSprite.position.set(this.startX, this.startY + 25 );
+        vagonSprite.position.set(this.startX, this.startY + 22 );
         this.vagonText.position.set(this.startX + 10, this.startY + 10);        
         this.viewport.addChild(this.vagonText);
     }
@@ -193,7 +207,7 @@ export class Vagon4 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 25;
-        vagonSprite.position.set(this.startX, this.startY + 25 );
+        vagonSprite.position.set(this.startX, this.startY + 22 );
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.rectangle.position.set(this.startX + 2, this.startY - 17);
         this.viewport.addChild(this.vagonText);
@@ -224,7 +238,7 @@ export class Vagon5 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 50;
-        vagonSprite.position.set(this.startX, this.startY);
+        vagonSprite.position.set(this.startX, this.startY - 3);
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.viewport.addChild(this.vagonText);
     }
@@ -257,7 +271,7 @@ export class Vagon6 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 25;
-        vagonSprite.position.set(this.startX, this.startY + 25 );
+        vagonSprite.position.set(this.startX, this.startY + 22 );
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.viewport.addChild(this.vagonText);
     }
@@ -286,7 +300,7 @@ export class Vagon7 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 20;
-        vagonSprite.position.set(this.startX, this.startY + 30 );  
+        vagonSprite.position.set(this.startX, this.startY + 27 );  
         this.vagonText.position.set(this.startX + 10, this.startY + 10);      
         this.viewport.addChild(this.vagonText);        
     }
@@ -325,7 +339,7 @@ export class Vagon8 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 25;
-        vagonSprite.position.set(this.startX, this.startY + 25 );
+        vagonSprite.position.set(this.startX, this.startY + 22 );
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.viewport.addChild(this.vagonText);
     }
@@ -360,7 +374,7 @@ export class Vagon9 extends VagonAbstract {
         this.viewport.addChild(vagonSprite);
         vagonSprite.width = 50;
         vagonSprite.height = 50;
-        vagonSprite.position.set(this.startX, this.startY);
+        vagonSprite.position.set(this.startX, this.startY - 3);
         this.vagonText.position.set(this.startX + 10, this.startY + 10);
         this.viewport.addChild(this.vagonText);
     }
