@@ -118,7 +118,6 @@ export class Node1 extends nodeElementAbstract {
                     var tt = this;
                     modal.style.display = "block";        
                     // Нужно заморозить обработку событий другим окнам
-                    debugger
                     var board1 = document.getElementById('board1');
                     //window.viewport1.interactive = false;
                     //window.viewport1.options.passiveWheel = false;
@@ -201,9 +200,10 @@ export class Node2 extends nodeElementAbstract {
     }
 }
 
-export class Node3 extends nodeElementAbstract {
+export class RailwayDeadEnd extends nodeElementAbstract {
     constructor(app, viewport){ // Квадратный станция
       super(app, viewport);
+      this.angle = 90;
     }
 
     draw(startX, startY) {
@@ -211,13 +211,52 @@ export class Node3 extends nodeElementAbstract {
 
         //this.graphics.beginFill(this.color);
         //x, y, width, height, radius)
-        this.graphics.lineStyle(1, 0x000000, 1);
-        this.graphics.moveTo(this.startX + 30, this.startY - 30); 
-        this.graphics.lineTo(this.startX, this.startY - 30);
-        // this.graphics.lineTo(this.startX, this.startY + 30);
-        // this.graphics.lineTo(this.startX + 20, this.startY + 30);
-        //var nodeSprite2 = this.graphics.drawRoundedRect(this.startX, this.startY, 200, 50, 20);
         //this.graphics.endFill();
+        this.graphics.lineStyle(10, 0x000000, 1);
+
+        switch (this.angle) {
+            case 0:
+                // up
+                this.graphics.moveTo(this.startX - 30, this.startY - 30); 
+                this.graphics.lineTo(this.startX - 30, this.startY);
+                this.graphics.lineTo(this.startX + 30, this.startY);
+                this.graphics.lineTo(this.startX + 30, this.startY - 30);
+                this.graphics.moveTo(this.startX, this.startY); 
+                this.graphics.lineTo(this.startX, this.startY - 80);
+              break;
+            case 90:
+                // left
+                this.graphics.moveTo(this.startX + 40, this.startY - 30); 
+                this.graphics.lineTo(this.startX, this.startY - 30);
+                this.graphics.lineTo(this.startX, this.startY + 30);
+                this.graphics.lineTo(this.startX + 40, this.startY + 30);
+                this.graphics.moveTo(this.startX, this.startY); 
+                this.graphics.lineTo(this.startX + 80, this.startY);
+              break;
+            case 180:
+                // down
+                this.graphics.moveTo(this.startX + 40, this.startY - 30); 
+                this.graphics.lineTo(this.startX, this.startY - 30);
+                this.graphics.lineTo(this.startX, this.startY + 30);
+                this.graphics.lineTo(this.startX + 40, this.startY + 30);
+                this.graphics.moveTo(this.startX, this.startY); 
+                this.graphics.lineTo(this.startX + 80, this.startY);
+                break;
+            case 270:
+                // right
+                this.graphics.moveTo(this.startX - 40, this.startY - 30); 
+                this.graphics.lineTo(this.startX, this.startY - 30);
+                this.graphics.lineTo(this.startX, this.startY + 30);
+                this.graphics.lineTo(this.startX - 40, this.startY + 30);
+                this.graphics.moveTo(this.startX, this.startY); 
+                this.graphics.lineTo(this.startX - 80, this.startY);
+              break;
+            default:
+              console.log(`Sorry, we are out of this.angle`);
+        }
+        
+        //var nodeSprite2 = this.graphics.drawRoundedRect(this.startX, this.startY, 200, 50, 20);
+        
         
         // стрелка влево
         //this.graphics.beginFill(0xffffff);
@@ -229,7 +268,7 @@ export class Node3 extends nodeElementAbstract {
 
         nodeSprite.anchor.set(0.5);
         this.viewport.addChild(nodeSprite);
-        nodeSprite.width = 180;
+        nodeSprite.width = 50;
         nodeSprite.height = 60;
         nodeSprite.position.set(this.startX, this.startY);
     }

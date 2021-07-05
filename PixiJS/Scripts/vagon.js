@@ -51,6 +51,7 @@
 export class Vagon1 extends VagonAbstract {
     constructor(app, viewport){ //Квадратный вагон с толстой платформой
       super(app, viewport);
+      this.isMove = false;
     }
 
     draw(startX, startY) {
@@ -71,13 +72,11 @@ export class Vagon1 extends VagonAbstract {
         this.graphics.lineTo(310, -48);        
         var texture = this.app.renderer.generateTexture(this.graphics);
         var vagonSprite = new PIXI.Sprite(texture);
-        debugger
         vagonSprite.interactive = true;
         vagonSprite.buttonMode = true;
         
         vagonSprite.vagonText = this.vagonText.text;
-        vagonSprite.on('pointertap',function(e) { 
-            debugger
+        vagonSprite.on('pointertap',function(e) {
             var vagonText = e.target.vagonText;
             alert(vagonText);
         });
@@ -86,11 +85,26 @@ export class Vagon1 extends VagonAbstract {
         vagonSprite.width = 50;
         vagonSprite.height = 50;
         vagonSprite.position.set(this.startX, this.startY - 3);
-
-        
-
         this.vagonText.position.set(this.startX + 10, this.startY + 10);        
-        this.viewport.addChild(this.vagonText);        
+        this.viewport.addChild(this.vagonText);
+        let distance = 0;
+        this.app.ticker.add((delta) => {
+            if(this.isMove){
+                if (this.startX < 1300 && distance < 60){
+                    distance = distance + 0.2;
+                    vagonSprite.position.set(this.startX = this.startX + 0.2, this.startY - 3);
+                    this.vagonText.position.set((this.startX = this.startX + 0.2) + 10, this.startY + 5);
+                    this.rectangle.position.set(this.startX = this.startX + 0.2, this.startY - 25);
+                } else {
+                    if (this.startX < 1035){
+                        distance = 0;
+                    }
+                    vagonSprite.position.set(this.startX = this.startX - 0.2, this.startY - 3);
+                    this.vagonText.position.set((this.startX = this.startX - 0.2) + 10, this.startY + 5);
+                    this.rectangle.position.set(this.startX = this.startX - 0.2, this.startY - 25);
+                }
+            }
+        });
     }
 }
 

@@ -1,7 +1,7 @@
 ﻿//import Game from './game.js';
 import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 } from './vagon.js';
 import { RailwayLine1 } from './railwayLine.js';
-import { Node1, Node2, Node3 } from './node-element.js';
+import { Node1, Node2, RailwayDeadEnd } from './node-element.js';
 
 window.app1 = {};
 window.app2 = {};
@@ -19,15 +19,15 @@ $(document).ready(function () {
 
     viewport1 = new pixi_viewport.Viewport({})
 
-    app2 = new PIXI.Application({
-        width: 1800,
-        height: 1000,
-        view: document.getElementById('board2'),
-        antialias: true,
-        backgroundColor: 0xffffff
-    });
+    // window.app2 = new PIXI.Application({
+    //     width: 1800,
+    //     height: 1000,
+    //     view: document.getElementById('board2'),
+    //     antialias: true,
+    //     backgroundColor: 0xffffff
+    // });
 
-    viewport2 = new pixi_viewport.Viewport({})
+    // viewport2 = new pixi_viewport.Viewport({})
 
     initMap1(app1, viewport1);    
 });
@@ -115,10 +115,6 @@ function initMap1(app, viewport) {
     // graphics.lineTo(1800, 0);
     // graphics.closePath();
 
-    let node31 = new Node3(app, viewport);  // ЖД-тупик
-    node31.color = 0xfaabd1; // розовый
-    node31.draw(500, 500);
-
     viewport.addChild(graphics);
 
     viewport.fitWorld();
@@ -172,7 +168,17 @@ function initMap1(app, viewport) {
 
 }
 
-function initMap2(app, viewport) {
+function initMap2() {
+    window.app2 = new PIXI.Application({
+        width: 1800,
+        height: 1000,
+        view: document.getElementById('board2'),
+        antialias: true,
+        backgroundColor: 0xffffff
+    });
+
+    viewport = new pixi_viewport.Viewport({})
+
     // Нужно заморозить обработку событий на другие карты кроме этой
     
     viewport
@@ -223,7 +229,7 @@ function initMap2(app, viewport) {
             maxScale: 5,              // minimum scale
         })
 
-    app.stage.addChild(viewport)
+        window.app2.stage.addChild(viewport)
 
     var graphics = new PIXI.Graphics();
     // draw a shape
@@ -250,16 +256,38 @@ function initMap2(app, viewport) {
 
     viewport.fitWorld();
     viewport.moveCenter(500, 200);
-    viewport.setZoom (1, false)
-    debugger
-    drawRailwayLine0(app, viewport);
-    let rw1 = drawRailwayLine1(app, viewport);
-    let rw2 = drawRailwayLine2(app, viewport);
-    let rw3 = drawRailwayLine3(app, viewport);
+    viewport.setZoom (1, false)    
+    drawRailwayLine0(window.app2, viewport);
+    let rw1 = drawRailwayLine1(window.app2, viewport);
+    let rw2 = drawRailwayLine2(window.app2, viewport);
+    let rw3 = drawRailwayLine3(window.app2, viewport);
+    let rw4 = drawRailwayLine4(window.app2, viewport);
     
     rw1.refresh();
     rw2.refresh();
     rw3.refresh();
+    rw4.refresh();
+
+    
+    var deadEndArray = [[500,1500, 90], [1300,1500, 270]];
+
+    deadEndArray.forEach(element => 
+    {
+        let deadEnd1 = new RailwayDeadEnd(window.app2, viewport);  // ЖД-тупик        
+        deadEnd1.angle = element[2]
+        deadEnd1.draw(element[0], element[1]);
+    })
+
+    // let deadEnd1 = new RailwayDeadEnd(app, viewport);  // ЖД-тупик
+    // deadEnd1.color = 0xfaabd1; // розовый
+    // deadEnd1.draw(500, 1500);
+
+    // let deadEnd2 = new RailwayDeadEnd(app, viewport);  // ЖД-тупик
+    // deadEnd2.color = 0xfaabd1; // розовый
+    // deadEnd2.angle = 270;
+    // deadEnd2.draw(1300, 1500);
+
+    // Listen for animate update
 }
 
 function drawRailwayLine0(app, viewport){
@@ -340,10 +368,12 @@ function drawRailwayLine1(app, viewport){
     va8.vagonText.text ='3456';
 
     let va9 = new Vagon1(app, viewport);
+    va9.isMove = true;
     va9.color = 0x0000ff;
     va9.vagonText.text ='7890';
 
     let va10 = new Vagon1(app, viewport);
+    va10.isMove = true;
     va10.color = 0x0000ff;
     va10.vagonText.text ='7890';
     
@@ -471,4 +501,16 @@ function drawRailwayLine3(app, viewport){
     rw3.addVagon(va9);
 
     return rw3;
+}
+
+function drawRailwayLine4(app, viewport){
+    
+    let rw4 = new RailwayLine1(app, viewport);
+    rw4.offsetStart = 0;
+
+    rw4.draw(500, 1500, 800); // startX, startY, endX
+    
+    //rw4.addVagon(va1);
+    
+    return rw4;
 }
