@@ -200,3 +200,37 @@ export class Node2 extends nodeElementAbstract {
 
     }
 }
+
+export class Node3 extends nodeElementAbstract {
+    constructor(app, viewport){ // Квадратный станция
+      super(app, viewport);
+    }
+
+    draw(startX, startY) {
+        super.draw(startX, startY);
+
+        //this.graphics.beginFill(this.color);
+        //x, y, width, height, radius)
+        this.graphics.lineStyle(1, 0x000000, 1);
+        this.graphics.moveTo(this.startX + 30, this.startY - 30); 
+        this.graphics.lineTo(this.startX, this.startY - 30);
+        // this.graphics.lineTo(this.startX, this.startY + 30);
+        // this.graphics.lineTo(this.startX + 20, this.startY + 30);
+        //var nodeSprite2 = this.graphics.drawRoundedRect(this.startX, this.startY, 200, 50, 20);
+        //this.graphics.endFill();
+        
+        // стрелка влево
+        //this.graphics.beginFill(0xffffff);
+        // this.graphics.moveTo(this.startX + 100, this.startY - 50); 
+        // this.graphics.lineTo(this.startX + 0, this.startY - 110);
+        //this.graphics.closePath();
+        var texture = this.app.renderer.generateTexture(this.graphics);
+        var nodeSprite = new PIXI.Sprite(texture);
+
+        nodeSprite.anchor.set(0.5);
+        this.viewport.addChild(nodeSprite);
+        nodeSprite.width = 180;
+        nodeSprite.height = 60;
+        nodeSprite.position.set(this.startX, this.startY);
+    }
+}

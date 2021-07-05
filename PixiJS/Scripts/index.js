@@ -1,7 +1,7 @@
 ﻿//import Game from './game.js';
 import { Vagon1, Vagon2, Vagon3, Vagon4, Vagon5, Vagon6, Vagon7, Vagon8, Vagon9 } from './vagon.js';
 import { RailwayLine1 } from './railwayLine.js';
-import { Node1, Node2 } from './node-element.js';
+import { Node1, Node2, Node3 } from './node-element.js';
 
 window.app1 = {};
 window.app2 = {};
@@ -114,6 +114,10 @@ function initMap1(app, viewport) {
     // graphics.moveTo(0, 800);
     // graphics.lineTo(1800, 0);
     // graphics.closePath();
+
+    let node31 = new Node3(app, viewport);  // ЖД-тупик
+    node31.color = 0xfaabd1; // розовый
+    node31.draw(500, 500);
 
     viewport.addChild(graphics);
 
